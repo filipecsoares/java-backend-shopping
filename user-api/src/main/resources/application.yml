@@ -1,0 +1,22 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: user-api
+  flyway:
+    schemas: users
+  datasource:
+    hikari:
+      maximumPoolSize: 5
+      connectionTimeout: 10000
+    url: jdbc:h2:file:/data/user-api
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: users
