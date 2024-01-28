@@ -39,6 +39,12 @@ public class UserController {
         return ResponseEntity.ok().body(UserResponse.of(response));
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<UserResponse>> getByName(@PathVariable String name) {
+        final var response = userService.findByName(name).orElse(new ArrayList<>()).stream().map(UserResponse::of).toList();
+        return ResponseEntity.ok().body(response);
+    }
+
     @PostMapping
     public ResponseEntity<UserResponse> create(@RequestBody UserRequest request) {
         final var user = userService.save(request.toUserModel());
