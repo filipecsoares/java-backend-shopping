@@ -9,7 +9,7 @@ spring:
     hikari:
       maximumPoolSize: 5
       connectionTimeout: 10000
-    url: jdbc:h2:file:/data/user-api
+    url: jdbc:h2:file:./data/user-api
     username: sa
     password: password
     driverClassName: org.h2.Driver
