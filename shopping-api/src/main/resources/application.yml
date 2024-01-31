@@ -1,0 +1,22 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: shopping-api
+  flyway:
+    schemas: shopping
+  datasource:
+    hikari:
+      maximumPoolSize: 5
+      connectionTimeout: 10000
+    url: jdbc:h2:file:./data/shopping-api
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: shopping
