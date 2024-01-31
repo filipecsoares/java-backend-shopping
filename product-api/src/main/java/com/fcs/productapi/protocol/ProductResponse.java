@@ -2,26 +2,20 @@ package com.fcs.productapi.protocol;
 
 import com.fcs.productapi.model.Product;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
-public class ProductRequest {
-    @NotBlank
+public class ProductResponse {
+    private Long id;
     private String productIdentifier;
-    @NotBlank
     private String name;
-    @NotBlank
     private String description;
-    @NotNull
     private Float price;
-    @NotNull
-    private CategoryRequest category;
+    private CategoryResponse category;
 
-    public ProductRequest() {
-
+    public ProductResponse() {
+        
     }
 
-    public ProductRequest(String productIdentifier, String name, String description, Float price, CategoryRequest category) {
+    public ProductResponse(Long id, String productIdentifier, String name, String description, Float price, CategoryResponse category) {
+        this.id = id;
         this.productIdentifier = productIdentifier;
         this.name = name;
         this.description = description;
@@ -29,8 +23,23 @@ public class ProductRequest {
         this.category = category;
     }
 
-    public Product toProduct() {
-        return new Product(name, price, description, productIdentifier, category.toCategory());
+    public static ProductResponse fromProduct(Product product) {
+        return new ProductResponse(
+                product.getId(),
+                product.getProductIdentifier(),
+                product.getName(),
+                product.getDescription(),
+                product.getPrice(),
+                CategoryResponse.fromCategory(product.getCategory())
+        );
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getProductIdentifier() {
@@ -65,11 +74,11 @@ public class ProductRequest {
         this.price = price;
     }
 
-    public CategoryRequest getCategory() {
+    public CategoryResponse getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryRequest category) {
+    public void setCategory(CategoryResponse category) {
         this.category = category;
     }
 }

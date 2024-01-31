@@ -2,24 +2,24 @@ package com.fcs.productapi.protocol;
 
 import com.fcs.productapi.model.Category;
 
-import jakarta.validation.constraints.NotNull;
-
-public class CategoryRequest {
-    @NotNull
+public class CategoryResponse {
     private Long id;
     private String name;
 
-    public CategoryRequest() {
-
+    public CategoryResponse() {
+        
     }
 
-    public CategoryRequest(Long id, String name) {
+    public CategoryResponse(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Category toCategory() {
-        return new Category(id, name);
+    public static CategoryResponse fromCategory(Category category) {
+        return new CategoryResponse(
+                category.getId(),
+                category.getName()
+        );
     }
 
     public Long getId() {

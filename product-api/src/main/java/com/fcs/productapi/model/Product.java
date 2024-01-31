@@ -1,7 +1,5 @@
 package com.fcs.productapi.model;
 
-import java.util.Locale.Category;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +26,15 @@ public class Product {
     }
 
     public Product(String name, Float price, String description, String productIdentifier, Category category) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.productIdentifier = productIdentifier;
+        this.category = category;
+    }
+
+    public Product(long id, String name, Float price, String description, String productIdentifier, Category category) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
