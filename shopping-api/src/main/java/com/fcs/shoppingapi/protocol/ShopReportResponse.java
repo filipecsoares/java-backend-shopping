@@ -1,5 +1,7 @@
 package com.fcs.shoppingapi.protocol;
 
+import com.fcs.shoppingapi.domain.ShopReport;
+
 public class ShopReportResponse {
     private Integer count;
     private Double total;
@@ -13,6 +15,10 @@ public class ShopReportResponse {
         this.count = count;
         this.total = total;
         this.mean = mean;
+    }
+
+    public static ShopReportResponse from(ShopReport shopReport) {
+        return new ShopReportResponse(shopReport.getCount(), shopReport.getTotal(), shopReport.getMean());
     }
 
     public Integer getCount() {
