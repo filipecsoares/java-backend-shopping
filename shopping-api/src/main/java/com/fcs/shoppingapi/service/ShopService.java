@@ -17,8 +17,14 @@ public class ShopService {
 
     private final ShopRepository shopRepository;
 
-    public ShopService(ShopRepository shopRepository) {
+    private final UserService userService;
+
+    private final ProductService productService;
+
+    public ShopService(ShopRepository shopRepository, UserService userService, ProductService productService) {
         this.shopRepository = shopRepository;
+        this.userService = userService;
+        this.productService = productService;
     }
 
     public Optional<List<Shop>> getAll() {
@@ -40,8 +46,28 @@ public class ShopService {
     }
 
     public Optional<Shop> save(Shop shop) {
+        if (userService.getUserByEmail(shop.getUserIdentifier()) == null) {
+            return Optional.empty();
+        }
+        if (!validateProducts(shop.getItems())) {
+            return Optional.empty();
+        }
         shop.setCreatedAt(new Date());
         shop.setTotal(shop.getItems().stream().map(Item::getPrice).reduce((float) 0, Float::sum));
         return Optional.of(shopRepository.save(shop));
+    }
+
+    private boolean validateProducts(List<Item> items) {
+        if (items == null) {
+            return false;
+        }
+        for (Item item : items) {
+            final var product = productService.getProductByIdentifier(item.getProductIdentifier());
+            if (product == null) {
+                return false;
+            }
+            item.setPrice(product.getPrice());
+        }
+        return true;
     }
 }
