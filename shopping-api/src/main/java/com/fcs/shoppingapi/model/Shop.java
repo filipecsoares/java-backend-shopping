@@ -16,7 +16,7 @@ import jakarta.persistence.Id;
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String userIdentifier;
     private float total;
     private Date createdAt;
@@ -28,7 +28,7 @@ public class Shop {
         
     }
 
-    public Shop(long id, String userIdentifier, float total, Date createdAt, List<Item> items) {
+    public Shop(Long id, String userIdentifier, float total, Date createdAt, List<Item> items) {
         this.id = id;
         this.userIdentifier = userIdentifier;
         this.total = total;
@@ -36,11 +36,11 @@ public class Shop {
         this.items = items;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

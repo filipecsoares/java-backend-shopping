@@ -3,6 +3,9 @@ package com.fcs.shoppingapi.protocol;
 import java.util.Date;
 import java.util.List;
 
+import com.fcs.shoppingapi.model.Item;
+import com.fcs.shoppingapi.model.Shop;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -25,6 +28,14 @@ public class ShopRequest {
         this.total = total;
         this.createdAt = createdAt;
         this.items = items;
+    }
+
+    public Shop toModel() {
+        List<Item> itemsModel = null;
+        if (items != null) {
+            itemsModel = items.stream().map(ItemRequest::toModel).toList();
+        }
+        return new Shop(null, userIdentifier, total, createdAt, itemsModel);
     }
 
     public String getUserIdentifier() {

@@ -3,6 +3,8 @@ package com.fcs.shoppingapi.protocol;
 import java.util.Date;
 import java.util.List;
 
+import com.fcs.shoppingapi.model.Shop;
+
 public class ShopResponse {
 
     private long id;
@@ -21,6 +23,17 @@ public class ShopResponse {
         this.total = total;
         this.createdAt = createdAt;
         this.items = items;
+    }
+
+    public static ShopResponse from(Shop shop) {
+        if (shop == null) {
+            return null;
+        }
+        List<ItemRequest> items = null;
+        if (shop.getItems() != null) {
+            items = shop.getItems().stream().map(ItemRequest::from).toList();
+        }
+        return new ShopResponse(shop.getId(), shop.getUserIdentifier(), shop.getTotal(), shop.getCreatedAt(), items);
     }
 
     public long getId() {
