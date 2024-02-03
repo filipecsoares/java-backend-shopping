@@ -2,6 +2,7 @@ package com.fcs.shoppingapi.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +56,6 @@ public class ShopController {
     @PostMapping
     public ResponseEntity<ShopResponse> newShop(@Valid @RequestBody ShopRequest request) {
         final var shop = shopService.save(request.toModel()).orElse(null);
-        return ResponseEntity.status(201).body(ShopResponse.from(shop));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ShopResponse.from(shop));
     }
 }
