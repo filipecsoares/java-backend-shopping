@@ -19,6 +19,7 @@ public class User {
     @Column(nullable = false)
     private String email;
     private String phone;
+    private String key;
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -26,11 +27,12 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
 
-    public User(String name, String email, String phone) {
+    public User(String name, String email, String phone, String key) {
         this();
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.key = key;
     }
 
     public Long getId() {
@@ -63,6 +65,14 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fcs.userapi.protocol.UserRequest;
@@ -33,9 +34,11 @@ public class UserController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<UserResponse> getByEmail(@PathVariable String email) {
-        final var response = userService.getUserByEmail(email).orElseThrow();
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UserResponse> getByEmail(
+        @RequestParam(name = "key", required = true) String key,
+        @PathVariable String email) {
+        final var response = userService.getUserByEmail(email, key).orElseThrow();
         return ResponseEntity.ok().body(UserResponse.of(response));
     }
 

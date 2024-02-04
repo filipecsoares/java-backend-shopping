@@ -45,8 +45,8 @@ public class ShopService {
         return shopRepository.findById(ProductId);
     }
 
-    public Optional<Shop> save(Shop shop) {
-        if (userService.getUserByEmail(shop.getUserIdentifier()) == null) {
+    public Optional<Shop> save(Shop shop, String key) {
+        if (userService.getUserByEmail(shop.getUserIdentifier(), key) == null) {
             return Optional.empty();
         }
         if (!validateProducts(shop.getItems())) {

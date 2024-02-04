@@ -2,6 +2,7 @@ package com.fcs.userapi.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<User> getUserByEmail(final String email) {
-        final var user = userRepository.getUserByEmail(email);
+    public Optional<User> getUserByEmail(final String email, final String key) {
+        final var user = userRepository.getUserByEmailAndKey(email, key);
         if (user.isPresent()) {
             return user;
         }
@@ -38,6 +39,7 @@ public class UserService {
     }
 
     public User save(final User user) {
+        user.setKey(UUID.randomUUID().toString());
         return userRepository.save(user);
     }
 
