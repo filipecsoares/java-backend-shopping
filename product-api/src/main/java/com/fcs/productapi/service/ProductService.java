@@ -5,7 +5,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.fcs.exception.CategoryNotFoundException;
+import com.fcs.exception.ProductNotFoundException;
 import com.fcs.productapi.model.Product;
+import com.fcs.productapi.repository.CategoryRepository;
 import com.fcs.productapi.repository.ProductRepository;
 
 @Service
@@ -13,8 +16,11 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    private final CategoryRepository categoryRepository;
+
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<Product> getAll() {
@@ -26,10 +32,18 @@ public class ProductService {
     }
 
     public Product findByProductIdentifier(final String productIdentifier) {
-        return productRepository.findByProductIdentifier(productIdentifier);
+        final var product = productRepository.findByProductIdentifier(productIdentifier);
+        if (product == null) {
+            throw new ProductNotFoundException("Product not found: " + productIdentifier);
+        }
+        return product;
     }
 
     public Product save(final Product product) {
+        Boolean hasCategory = categoryRepository.existsById(product.getCategory().getId());
+        if (!hasCategory) {
+            throw new CategoryNotFoundException("Category not found: " + product.getCategory().getId());
+        }
         return productRepository.save(product);
     }
 
@@ -38,5 +52,6 @@ public class ProductService {
         if (product.isPresent()) {
             productRepository.delete(product.get());
         }
+        throw new ProductNotFoundException("Product not found: " + productId);
     }
 }
