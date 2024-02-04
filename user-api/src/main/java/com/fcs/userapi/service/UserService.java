@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.fcs.exception.UserNotFoundException;
 import com.fcs.userapi.model.User;
 import com.fcs.userapi.repository.UserRepository;
 
@@ -17,7 +18,11 @@ public class UserService {
     }
 
     public Optional<User> getUserByEmail(final String email) {
-        return userRepository.getUserByEmail(email);
+        final var user = userRepository.getUserByEmail(email);
+        if (user.isPresent()) {
+            return user;
+        }
+        throw new UserNotFoundException(String.format("User with email %s not found", email));
     }
 
     public Optional<List<User>> getAll() {
